@@ -10,28 +10,28 @@ services:
     image: nginx
     container_name: nginx
     volumes:
+#      - ./nginx/custompasswd:/etc/nginx/custompasswd
       - ./nginx/src:/usr/share/nginx/html
       - ./nginx/conf:/etc/nginx/conf.d
       - ./nginx/templates:/etc/nginx/templates
       - ./.app_data/nginx_log:/var/log/nginx
       - ./.app_data/vpn:/usr/share/nginx/html/vpn
     ports:
-      - "0.0.0.0:80:80"
+      - "127.0.0.1:8080:80"
     networks:
       - vpn-app
     restart: unless-stopped
 
   # VPN server
-  vpn:
+  open-vpn-node-1:
     image: alekslitvinenk/openvpn
-    container_name: vpn
+    container_name: open-vpn-node-1
     privileged: true
     environment:
       HOST_ADDR: ${VPN_ADDRESS}
       HOST_TUN_PORT: ${VPN_PORT}
     ports:
-      - "0.0.0.0:${VPN_PORT}:1194/udp"
-      - "0.0.0.0:8001:8080"
+      - "127.0.0.1:${VPN_PORT}:1194/udp"
     networks:
       vpn-app:
     restart: unless-stopped

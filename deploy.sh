@@ -39,7 +39,8 @@ echo ''
 
 sleep 5
 
-curl localhost:8001 > ./.app_data/vpn/vpn-config.ovpn
+docker exec -it open-vpn-node-1 wget localhost:8080
+docker exec -it open-vpn-node-1 cat index.html > ./.app_data/vpn/vpn-config.ovpn
 
 echo ''
 echo '########################################## Done ##########################################'
